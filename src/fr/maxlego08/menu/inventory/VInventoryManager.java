@@ -162,6 +162,7 @@ public class VInventoryManager extends ListenerAdapter {
         InventoryHolder holder = CompatibilityUtil.getTopInventory(event).getHolder();
         if (holder instanceof VInventory) {
             ((VInventory) holder).onPreClose(event, this.plugin, player);
+
         }
     }
 

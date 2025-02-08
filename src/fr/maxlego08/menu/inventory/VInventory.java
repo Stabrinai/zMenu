@@ -1,7 +1,10 @@
 package fr.maxlego08.menu.inventory;
 
 import fr.maxlego08.menu.MenuPlugin;
+import fr.maxlego08.menu.api.button.Button;
+import fr.maxlego08.menu.api.players.PlayerInventoryRenderer;
 import fr.maxlego08.menu.exceptions.InventoryOpenException;
+import fr.maxlego08.menu.inventory.inventories.InventoryDefault;
 import fr.maxlego08.menu.save.Config;
 import fr.maxlego08.menu.zcore.utils.ZUtils;
 import fr.maxlego08.menu.zcore.utils.builder.ItemBuilder;
@@ -117,14 +120,14 @@ public abstract class VInventory extends ZUtils implements Cloneable, InventoryH
 
         ItemButton button = new ItemButton(itemStack, slot);
         if (inPlayerInventory) {
-
+            PlayerInventoryRenderer playerInventoryRenderer = this.plugin.getProvider(PlayerInventoryRenderer.class);
             this.playerInventoryItems.put(slot, button);
 
             if (this.openAsync) {
                 ItemStack finalItem = itemStack;
-                runAsync(this.plugin, () -> this.player.getInventory().setItem(slot, finalItem));
+                runAsync(this.plugin, () -> playerInventoryRenderer.addItem(this.player, slot+9, finalItem));
             } else {
-                this.player.getInventory().setItem(slot, itemStack);
+                playerInventoryRenderer.addItem(this.player, slot+9, itemStack);
             }
 
         } else {
@@ -206,6 +209,12 @@ public abstract class VInventory extends ZUtils implements Cloneable, InventoryH
     protected void onPreClose(InventoryCloseEvent event, MenuPlugin plugin, Player player) {
         this.isClose = true;
         this.onClose(event, plugin, player);
+        if(this instanceof InventoryDefault) {
+            if (((InventoryDefault) this).getButtons().stream().anyMatch(Button::isPlayerInventory)) {
+                this.plugin.getScheduler()
+                        .runTaskLater(player.getLocation(), 1, player::updateInventory);
+            }
+        }
     }
 
 
