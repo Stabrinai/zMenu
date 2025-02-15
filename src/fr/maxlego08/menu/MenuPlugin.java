@@ -266,7 +266,7 @@ public class MenuPlugin extends ZPlugin {
 
         this.preDisable();
 
-        this.vinventoryManager.close();
+        if (!isFolia()) this.vinventoryManager.close();
 
         Config.getInstance().save(getPersist());
         this.getSavers().forEach(saver -> saver.save(this.getPersist()));

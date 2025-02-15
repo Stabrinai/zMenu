@@ -557,7 +557,7 @@ public abstract class ZUtils extends MessageUtils {
                     consumer.accept(this, false);
                     return;
                 }
-                plugin.getScheduler().runTask(null, () -> consumer.accept(this, true));
+                plugin.getScheduler().runTask(() -> consumer.accept(this, true));
             }
         };
         ZScheduler.TIMER.scheduleAtFixedRate(task, startAt, delay);

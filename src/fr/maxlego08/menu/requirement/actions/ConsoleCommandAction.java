@@ -22,7 +22,7 @@ public class ConsoleCommandAction extends Action {
     protected void execute(Player player, Button button, InventoryDefault inventory, Placeholders placeholders) {
         ZScheduler scheduler = inventory.getPlugin().getScheduler();
         Runnable runnable = () -> papi(placeholders.parse(this.commands), player, true).forEach(command -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName())));
-        if (scheduler.isFolia()) scheduler.runTask(null, runnable);
+        if (scheduler.isFolia()) scheduler.runTask(runnable);
         else runnable.run();
     }
 }

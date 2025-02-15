@@ -159,7 +159,7 @@ public abstract class ZPerformButton extends ZSlotButton implements PerformButto
                     Runnable runnable = () -> Bukkit.dispatchCommand(executor, papi(finalCommand, player, true));
                     if (scheduler.isFolia()) {
                         if (executor instanceof Player) scheduler.runTask(((Player) executor).getLocation(), runnable);
-                        else scheduler.runTask(null, runnable);
+                        else scheduler.runTask(runnable);
                     } else runnable.run();
                 }
             } catch (Exception exception) {

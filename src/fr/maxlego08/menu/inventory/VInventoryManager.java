@@ -23,7 +23,6 @@ import org.bukkit.inventory.InventoryHolder;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -186,15 +185,18 @@ public class VInventoryManager extends ListenerAdapter {
     }
 
     public void close(Predicate<VInventory> predicate) {
-        Bukkit.getOnlinePlayers().stream().filter(player -> {
+        Bukkit.getOnlinePlayers().forEach(player -> plugin.getScheduler().runTask(player, () -> {
             InventoryHolder holder = CompatibilityUtil.getTopInventory(player).getHolder();
-            return holder instanceof VInventory;
-        }).map(player -> (VInventory) CompatibilityUtil.getTopInventory(player).getHolder()).filter(predicate).filter(Objects::nonNull).forEach(vInventory -> {
-            Player player = vInventory.getPlayer();
-            if (player.isOnline()) {
-                player.closeInventory();
+            if (!(holder instanceof VInventory))
+                return;
+
+            VInventory v = (VInventory) holder;
+            if (predicate.test(v)) {
+                if (player.isOnline()) {
+                    player.closeInventory();
+                }
             }
-        });
+        }));
     }
 
     @Override

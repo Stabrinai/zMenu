@@ -38,7 +38,7 @@ public class InventoryAction extends Action {
     @Override
     protected void execute(Player player, Button button, InventoryDefault inventory, Placeholders placeholders) {
 
-        inventory.getPlugin().getScheduler().runTask(null, () -> {
+        inventory.getPlugin().getScheduler().runTask(() -> {
             this.inventoryArgument.process(player);
 
             Optional<Inventory> optional = this.inventoryManager.getInventory(this.plugin, this.papi(placeholders.parse(this.inventory), player, false));

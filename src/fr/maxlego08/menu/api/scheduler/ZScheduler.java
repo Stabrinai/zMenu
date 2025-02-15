@@ -1,6 +1,7 @@
 package fr.maxlego08.menu.api.scheduler;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 
 import javax.annotation.Nullable;
 import java.util.Timer;
@@ -18,11 +19,28 @@ public interface ZScheduler {
     /**
      * Runs the task.
      *
+     * @param task     The task to run.
+     * @return The created {@link ZScheduler}.
+     */
+    ZScheduler runTask(Runnable task);
+
+    /**
+     * Runs the task.
+     *
      * @param location Required for Folia, in Bukkit can be null.
      * @param task     The task to run.
      * @return The created {@link ZScheduler}.
      */
-    ZScheduler runTask(@Nullable Location location, Runnable task);
+    ZScheduler runTask(Location location, Runnable task);
+
+    /**
+     * Runs the task.
+     *
+     * @param entity Required for Folia, in Bukkit can be null.
+     * @param task     The task to run.
+     * @return The created {@link ZScheduler}.
+     */
+    ZScheduler runTask(Entity entity, Runnable task);
 
     /**
      * Runs the task asynchronously.
@@ -31,6 +49,8 @@ public interface ZScheduler {
      * @return The created {@link ZScheduler}.
      */
     ZScheduler runTaskAsynchronously(Runnable task);
+
+    ZScheduler runTaskLater(long delay, Runnable task);
 
     /**
      * Runs the task after a specified number of ticks.
@@ -43,6 +63,16 @@ public interface ZScheduler {
     ZScheduler runTaskLater(@Nullable Location location, long delay, Runnable task);
 
     /**
+     * Runs the task after a specified number of ticks.
+     *
+     * @param entity Required for Folia, in Bukkit can be null.
+     * @param task     The task to run.
+     * @param delay    The number of ticks to wait.
+     * @return The created {@link ZScheduler}.
+     */
+    ZScheduler runTaskLater(@Nullable Entity entity, long delay, Runnable task);
+
+    /**
      * Runs the task asynchronously after a specified number of ticks.
      *
      * @param task  The task to run.
@@ -50,6 +80,8 @@ public interface ZScheduler {
      * @return The created {@link ZScheduler}.
      */
     ZScheduler runTaskLaterAsynchronously(long delay, Runnable task);
+
+    ZScheduler runTaskTimer(long delay, long period, Runnable task);
 
     /**
      * Runs the task repeatedly on a timer.
@@ -61,6 +93,17 @@ public interface ZScheduler {
      * @return The created {@link ZScheduler}.
      */
     ZScheduler runTaskTimer(@Nullable Location location, long delay, long period, Runnable task);
+
+    /**
+     * Runs the task repeatedly on a timer.
+     *
+     * @param entity Required for Folia, in Bukkit can be null.
+     * @param task     The task to run.
+     * @param delay    The delay before the task is first run (in ticks).
+     * @param period   The ticks elapsed before the task is run again.
+     * @return The created {@link ZScheduler}.
+     */
+    ZScheduler runTaskTimer(@Nullable Entity entity, long delay, long period, Runnable task);
 
     /**
      * Runs the task repeatedly on a timer asynchronously.
