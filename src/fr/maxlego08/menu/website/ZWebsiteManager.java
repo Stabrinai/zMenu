@@ -154,7 +154,7 @@ public class ZWebsiteManager extends ZUtils implements WebsiteManager {
 
                 this.resources = maps.stream().map(Resource::new).collect(Collectors.toList());
 
-                this.plugin.getScheduler().runTask(player.getLocation(), () -> openMarketplaceInventory(player));
+                this.plugin.getScheduler().runTask(player, () -> openMarketplaceInventory(player));
             });
         }
     }
@@ -255,7 +255,7 @@ public class ZWebsiteManager extends ZUtils implements WebsiteManager {
 
                 this.baseFolderId = this.folders.stream().filter(e -> e.getParentId() == -1).map(Folder::getId).findFirst().orElse(-1);
 
-                this.plugin.getScheduler().runTask(player.getLocation(), () -> openInventoriesInventory(player, 1, 1, this.baseFolderId));
+                this.plugin.getScheduler().runTask(player, () -> openInventoriesInventory(player, 1, 1, this.baseFolderId));
             } else {
                 message(player, Message.WEBSITE_MARKETPLACE_ERROR);
             }
