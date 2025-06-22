@@ -94,7 +94,7 @@ public class InventoryDefault extends VInventory implements InventoryEngine {
             this.buttons.forEach(this::buildButton);
 
             if (isAsync) {
-                scheduler.runAtLocation(player.getLocation(), w2 -> player.openInventory(this.getSpigotInventory()));
+                scheduler.runAtEntity(player, w2 -> player.openInventory(this.getSpigotInventory()));
             }
         };
 
@@ -181,7 +181,7 @@ public class InventoryDefault extends VInventory implements InventoryEngine {
         if (button.hasSpecialRender()) {
 
             Consumer<WrappedTask> runnable = w -> button.onRender(targetPlayer, this);
-            if (isAsync) plugin.getScheduler().runAtLocation(player.getLocation(), runnable);
+            if (isAsync) plugin.getScheduler().runAtEntity(player, runnable);
             else runnable.accept(null);
 
         } else {
@@ -191,7 +191,7 @@ public class InventoryDefault extends VInventory implements InventoryEngine {
                 this.displayFinalButton(button, slot);
             };
 
-            if (isAsync) plugin.getScheduler().runAtLocation(player.getLocation(), runnable);
+            if (isAsync) plugin.getScheduler().runAtEntity(player, runnable);
             else runnable.accept(null);
         }
     }
